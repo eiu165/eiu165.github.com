@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>My Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1.0,user-scaleable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+    <script type="text/javascript">
+//        $(document).bind("pageinit", function () {
+//            alert('page init');                
+//        });
+//        $(document).on("pagehide", function () {
+//            $(e.target).remove();
+//        });
+        $(document).bind("pageinit", function() {
+            $('.swipe').swipe({
+                swipeLeft: function() { $('#someDiv').fadeIn(); },
+                swipeRight: function() { $('#someDiv').fadeOut(); },
+            });
+        });
+        
+    </script>
+</head>
+<body>
+    <div data-role="page" data-theme="b">
+        <div data-role="content">
+            <ul data-role="listview" data-inset="true" data-filter="true">
+                <li class="swipe">Alabama </li>
+                <li class="swipe">Alaska </li>
+                <li class="swipe">Arizona </li>
+                <li class="swipe">Arkansas </li>
+                <li class="swipe">California </li>
+                <li class="swipe">Colorado </li>
+                <li class="swipe">Connecticut </li>
+                <li class="swipe">Delaware </li>
+                <li class="swipe">Florida </li>
+                <li class="swipe">Georgia </li>
+                <!--<li class="swipe">Hawaii </li>
+                <li class="swipe">Idaho </li>
+                <li class="swipe">Illinois </li>
+                <li class="swipe">Indiana </li>
+                <li class="swipe">Iowa </li>
+                <li class="swipe">Kansas </li>
+                <li class="swipe">Kentucky </li>
+                <li class="swipe">Louisiana </li>
+                <li class="swipe">Maine </li>
+                <li class="swipe">Maryland </li>
+                <li class="swipe">Massachusetts </li>
+                <li class="swipe">Michigan </li>
+                <li class="swipe">Minnesota </li>
+                <li class="swipe">Mississippi </li>
+                <li class="swipe">Missouri </li>
+                <li class="swipe">Montana </li>
+                <li class="swipe">Nebraska </li>
+                <li class="swipe">Nevada </li>
+                <li class="swipe">New Hampshire </li>
+                <li class="swipe">New Jersey </li>
+                <li class="swipe">New Mexico </li>
+                <li class="swipe">New York </li>
+                <li class="swipe">North Carolina </li>
+                <li class="swipe">North Dakota </li>
+                <li class="swipe">Ohio </li>
+                <li class="swipe">Oklahoma </li>
+                <li class="swipe">Oregon </li>
+                <li class="swipe">Pennsylvania </li>
+                <li class="swipe">Rhode Island </li>
+                <li class="swipe">South Carolina </li>
+                <li class="swipe">South Dakota </li>
+                <li class="swipe">Tennessee </li>
+                <li class="swipe">Texas </li>
+                <li class="swipe">Utah </li>
+                <li class="swipe">Vermont </li>
+                <li class="swipe">Virginia </li>
+                <li class="swipe">Washington </li>
+                <li class="swipe">West Virginia </li>
+                <li class="swipe">Wisconsin </li>
+                <li class="swipe">Wyoming </li>-->
+            </ul>
+            <div id="someDiv">
+                someDiv</div>
+        </div>
+    </div>
+</body>
+</html>
