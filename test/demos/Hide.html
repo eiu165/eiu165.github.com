@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>title</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <!-- viewport -->
+        <meta content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+        <!-- webapp -->
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+        <style type='text/css'>
+            body {
+                background: #E0E0E0;
+                margin: 0;
+                padding: 0;
+                overflow-x: hidden;
+            }
+
+            .page-wrapper {
+                width: auto;
+            }
+
+            /* native overflow scrolling */
+            .mobile-touch-overflow {
+                overflow: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .mobile-touch-overflow,
+            .mobile-touch-overflow * {
+                /* some level of transform keeps elements from blinking out of visibility on iOS */
+                -webkit-transform: rotateY(0);
+            }
+
+            .page-header {
+                display: block;
+                background: gray;
+                border-bottom: 1px solid #CDCDCD;
+                padding: 10px;    
+            }
+
+            .page-content {
+                padding: 10px;
+            }
+
+            .page-footer {
+                display: block;
+                border-top: 1px solid #CDCDCD;    
+                margin-left: 10px;
+                margin-right: 10px;
+                padding: 10px;
+                padding-left: 0;
+                padding-right: 0;
+                text-align: center;
+                font-size: 12px;
+                color: #FFF;
+            }
+        </style>
+
+        <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+
+        <script type="text/javascript">
+                /*
+                * utils
+                */
+
+                var utils = {
+
+                    init : function(){
+                        var touchHeight = $('.mobile-touch-overflow').height(),
+                            screenHeight = utils.getScreenHeight() - (utils.notStandalone()?44:0);
+                        // touchOverflow: hide adressbar when scrolling
+                        if(touchHeight > screenHeight && utils.supportTouchOverflow())
+                        {
+                            $('.mobile-touch-overflow').bind('touchmove',function(){
+                                if($('.page-content').offset().top < 0)
+                                {
+                                    utils.windowScroll(1);
+                                }
+                                return true;
+                            });
+                        }
+                    },
+
+                    supportTouchOverflow : function(){
+                        return !!utils.propExists( "overflowScrolling" );
+                    },
+
+                    supportOrientation : function(){
+                        return ("orientation" in window && "onorientationchange" in window);
+                    },
+
+                    //simply set the active page's minimum height to screen height, depending on orientation
+                    getScreenHeight : function(){
+                        var orientation     = utils.getOrientation(),
+                            port            = orientation === "portrait",
+                            winMin          = port ? 480 : 320,
+                            screenHeight    = port ? screen.availHeight : screen.availWidth,
+                            winHeight       = Math.max( winMin, $(window).height() ),
+                            pageMin         = Math.min( screenHeight, winHeight);
+
+                        return pageMin;
+                    },
+
+                    getWindowHeight : function(){
+                        return window.innerHeight ? window.innerHeight : $(window).height();
+                    },
+
+                    // Get the current page orientation. This method is exposed publicly, should it
+                    // be needed, as jQuery.event.special.orientationchange.orientation()
+                    getOrientation : function() {
+                        var isPortrait = true,
+                            elem = document.documentElement,
+                            portrait_map = { "0": true, "180": true };
+                        // prefer window orientation to the calculation based on screensize as
+                        // the actual screen resize takes place before or after the orientation change event
+                        // has been fired depending on implementation (eg android 2.3 is before, iphone after).
+                        // More testing is required to determine if a more reliable method of determining the new screensize
+                        // is possible when orientationchange is fired. (eg, use media queries + element + opacity)
+                        if ( utils.supportOrientation() ) {
+                            // if the window orientation registers as 0 or 180 degrees report
+                            // portrait, otherwise landscape
+                            isPortrait = portrait_map[ window.orientation ];
+                        } else {
+                            isPortrait = elem && elem.clientWidth / elem.clientHeight < 1.1;
+                        }
+
+                        return isPortrait ? "portrait" : "landscape";
+                    },
+
+                    windowScroll : function(ypos) {
+                        setTimeout(function() {
+                            window.scrollTo( 0, ypos );
+                        }, 20 );            
+                    },
+
+                    setTouchHeight : function(time) {
+                        setTimeout(function() {
+                            var footerHeight = (utils.notStandalone())?44:0;
+                            $('.mobile-touch-overflow').height( utils.getScreenHeight() - footerHeight );
+                        }, time );          
+                    },
+
+                    notStandalone : function(){
+                        return (("standalone" in window.navigator) && !window.navigator.standalone);
+                    },
+
+                    propExists : function(prop) {
+                        var fakeBody = $( "<body>" ).prependTo( "html" ),
+                            fbCSS = fakeBody[ 0 ].style,
+                            vendors = [ "Webkit", "Moz", "O" ],
+                            uc_prop = prop.charAt( 0 ).toUpperCase() + prop.substr( 1 ),
+                            props = ( prop + " " + vendors.join( uc_prop + " " ) + uc_prop ).split( " " );
+
+                        for ( var v in props ){
+                            if ( fbCSS[ props[ v ] ] !== undefined ) {
+                                fakeBody.remove();
+                                return true;
+                            }
+                        }
+                    },
+
+                    hideAdressbar : function(){
+                        if(utils.supportTouchOverflow()){
+                            utils.setTouchHeight(0);
+                        }
+                        utils.windowScroll(1);      
+                    }
+
+                };//utils end
+
+                // WINDOW LOAD
+                $(window).load(function(){
+                    utils.hideAdressbar();      
+                });
+
+                $(document).ready(function(){
+                    utils.init();
+                });
+				
+				var touchHeight = $('.mobile-touch-overflow').height(), screenHeight = utils.getScreenHeight() - (utils.notStandalone()?44:0);
+				// touchOverflow: hide adressbar when scrolling
+				if(touchHeight > screenHeight && utils.supportTouchOverflow())
+				{
+					$('.mobile-touch-overflow').bind('touchmove',function(){
+						if($('.page-content').offset().top < 0)
+						{
+							utils.windowScroll(1);
+						}
+						return true;
+					});
+				} 
+        </script>
+    </head>
+
+    <body>
+
+        <div class="page-wrapper mobile-touch-overflow">
+            <header class="page-header">Header</header>
+            <div class="page-content">
+                <br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###
+                <br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###
+                <br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###
+                <br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###
+                <br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###
+                <br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###
+                <br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###
+                <br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###
+                <br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###
+                <br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###
+                <br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###
+                <br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###<br>###
+            </div>
+            <footer class="page-footer">Footer</footer>                
+        </div>
+
+    </body>
+</html>
