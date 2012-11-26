@@ -4,6 +4,7 @@
     <head>
         <meta charset="utf-8">
 		<meta content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
         <title>
         </title>
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css"
@@ -45,8 +46,11 @@
 				<p>page 2</p>
             </div>
         </div>
-        <script>
-              //App custom javascript
+        <script> 
+			window.onload = function() {
+				// x/y coordinates, "1" will cause the address bar to hide
+				window.scrollTo(0, 1);
+			};
         </script>
     </body>
 
