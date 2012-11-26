@@ -47,10 +47,14 @@
             </div>
         </div>
         <script> 
-			window.onload = function() {
-				// x/y coordinates, "1" will cause the address bar to hide
-				window.scrollTo(0, 1);
-			};
+		// When ready...
+		window.addEventListener("load",function() {
+		  // Set a timeout...
+		  setTimeout(function(){
+			// Hide the address bar!
+			window.scrollTo(0, 1);
+		  }, 0);
+		});
         </script>
     </body>
 
