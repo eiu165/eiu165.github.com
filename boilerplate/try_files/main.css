@@ -157,8 +157,10 @@ nav a:hover {
    Author's custom styles
    ========================================================================== */
 
+.clear { clear: both;}
 
-
+.product { display: block; float:left;  width: 160px; height: 200px;  color: white; margin:10px;
+    padding: 0 1% 10px;     background: none repeat scroll 0 0 #F16529; }
 
 
 
