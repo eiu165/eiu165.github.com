@@ -15,11 +15,21 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"  ></script>
     <script type="text/javascript" >
         $(function () {
-            $('.tableHolder td').each(function () {
+            $('.tableHolder td').bind('click', function () { 
+                addTextBox($(this)); 
+            }).each(function () {
                 var val = $(this).text();
                 $(this).css('background-color', numberToColor(val));
             });
         });
+        function addTextBox(ele) {
+            ele.unbind('click');
+
+            var val = ele.text();
+            var newTb = '<input type="text" value="' + val + '"/>';
+            ele.append(newTb); 
+            newTb.focus()
+        }
 
         function numberToColor(num) {
             if (num == 0)
